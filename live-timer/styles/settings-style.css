@@ -1,0 +1,11 @@
+.settings {
+    width: 100%;
+    background-color: #DDD;
+    padding: 10px;
+}
+
+.settings input {
+    font-size: 1.3em;
+    width: 3em;
+    margin: 0 5px;
+}

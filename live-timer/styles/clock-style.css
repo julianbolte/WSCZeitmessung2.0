@@ -1,0 +1,30 @@
+@font-face {
+    font-family: 'Segment7Standard';
+    src: local('Segment7'), local('Segment7Standard'), url('../fonts/segment7/Segment7Standard.otf');
+    font-weight: normal;
+    font-style: italic;
+}
+
+.content-wrapper {
+    padding: 0 1em;
+    display: flex;
+    align-items: center;
+    background: #000;
+}
+
+.seg-font {
+    font-family: 'Segment7Standard', monospace;
+    font-weight: normal;
+    font-style: italic;
+    color: #dbed15;
+    display: block;
+}
+
+#clock {
+    font-size: 30em;
+}
+
+#startnummer {
+    margin-left: 0.2em;
+    font-size: 12em;
+}

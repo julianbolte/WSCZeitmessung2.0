@@ -1,0 +1,13 @@
+body {
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body, .content-wrapper {
+    height: 100%;
+    margin: 0;
+}
+
+.data {
+    display: none;
+}

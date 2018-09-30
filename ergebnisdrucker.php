@@ -17,7 +17,7 @@ function fetch_data($raceid,$conn)
     $platz = 1;
 		$best_time = 0;
     $output = '';
-    $sql = "SELECT * FROM test3 WHERE rnnr='$raceid' ORDER BY LEAST(IFNULL(e_lauf1, 10000), IFNULL(e_lauf2, 10000))";
+    $sql = "SELECT * FROM ergebnis WHERE rnnr='$raceid' ORDER BY LEAST(IFNULL(e_lauf1, 10000), IFNULL(e_lauf2, 10000))";
     $result = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_array($result))
     {
@@ -62,7 +62,7 @@ function fetch_data($raceid,$conn)
         $output .= '<tr>
             <td width="4%" align="left"><b>'.$platz.'</b></td>
             <td width="5%" align="left">'.$row["stnr"].'</td>
-            <td width="29%" align="left">'.$row["name"].'</td>
+            <td width="29%" align="left">'.substr($row["name"], -100, 27).'</td>
             <td width="20%" align="left">'.$row["verein"].'</td>
             <td width="6%" align="right">'.$row["f_lauf1"].'</td>
             <td width="7%" align="right">'.$row["e_lauf1"].'</td>
@@ -85,11 +85,12 @@ if(isset($_POST["generate_pdf"]))
     while($row = mysqli_fetch_array($result))
     {
         $racename = $row["bezeichnung"];
+				$racename_titel = utf8_encode($racename);
     }
     require_once('./tcpdf/tcpdf.php');
     $obj_pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
     $obj_pdf->SetCreator(PDF_CREATOR);
-    $obj_pdf->SetTitle("Ergebnis: Rennen $raceid");
+    $obj_pdf->SetTitle("Rennen $raceid: $racename_titel");
     $obj_pdf->SetHeaderData('', '', PDF_HEADER_TITLE, PDF_HEADER_STRING);
     $obj_pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
     $obj_pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -127,7 +128,7 @@ if(isset($_POST["generate_pdf"]))
     $content .= '<br><hr><div align="center">Ausdruck Erstellt: '.date("H:i:s").' Ablauf der Protestzeit: ________</div>';
     $content = utf8_encode($content);
     $obj_pdf->writeHTML($content);
-    $obj_pdf->Output("ergebnis-rennen-'$raceid'.pdf", 'I');
+    $obj_pdf->Output("ergebnis-rennen-'$raceid'-'$racename_titel'.pdf", 'I');
 }
 ?>
 <html>
@@ -137,7 +138,7 @@ if(isset($_POST["generate_pdf"]))
 </head>
 <body>
     <div align="center">
-    <h1>Einzeldruck Ergebnis</h1>
+    <h1>Ergebnis-Einzelausdruck Erstellen</h1>
 		<br />
     <table>
     <form method="post">
@@ -151,7 +152,7 @@ if(isset($_POST["generate_pdf"]))
     </form>
     </table>
 		<h2>Übersicht über alle Rennen:</h2>
-		<table border="1" cellspacing="0" cellpadding="2">
+		<table width="60%" border="1" cellspacing="0" cellpadding="2">
 			<tr><th width="10%">Id</th><th width="90%">Bezeichnung</th></tr>
 			<?php echo $vereine ?>
 		</table>

@@ -19,8 +19,8 @@ if(connect()) {
 }
 
 function connect() {
-    socketStart = new WebSocket("ws://" + addressStart + ":1001");
-    socketZiel = new WebSocket("ws://" + addressZiel + ":1002");
+    socketStart = new WebSocket("ws://" + addressStart + ":2001");
+    socketZiel = new WebSocket("ws://" + addressZiel + ":2002");
     return socketStart.readyState === WebSocket.OPEN && socketZiel.readyState === WebSocket.OPEN;
 }
 
